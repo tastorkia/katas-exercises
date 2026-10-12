@@ -1,0 +1,62 @@
+[project]
+name = "ai-agent-katas"
+version = "0.1.0"
+description = "CLI for running AI agent kata evaluations"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "typer",
+  "pydantic-ai",
+  "pyyaml",
+  "rich",
+  "pydantic-evals>=1.0.1",
+  "questionary>=2.1.1",
+  "httpx>=0.28.1",
+  "mcp[cli]>=1.19.0",
+  "logfire[httpx]>=4.14.2",
+  "pydantic-ai-slim[web]>=1.7.0",
+  "openinference-instrumentation-pydantic-ai>=0.1.11"
+]
+
+[project.scripts]
+katas = "src.cli:app"
+
+[tool.uv.workspace]
+members = [
+  "katas/*/py",
+  "mcp_katas/*/py",
+  "rag_katas/*/py",
+  "assessor",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.31.7",
+    "ruff>=0.14.1",
+]
+tts = [
+    "qwen-tts",
+    "torch",
+    "soundfile",
+    "yt-dlp",
+]
+[tool.hatch.build.targets.wheel]
+include = [
+  "katas/*/py",
+  "mcp_katas/*/py",
+]
+
+
+[tool.basedpyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+venvPath = "."
+venv = '.venv'
+reportAny = false
+reportExplicitAny = false
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
